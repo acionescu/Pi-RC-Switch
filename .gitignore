@@ -1,0 +1,10 @@
+*.iml
+build/
+*#*
+*~
+*.old
+target/
+.classpath
+.project
+.settings/
+bin/
