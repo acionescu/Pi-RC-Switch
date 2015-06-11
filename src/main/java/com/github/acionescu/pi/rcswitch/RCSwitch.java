@@ -23,7 +23,7 @@
  * MA 02110-1301  USA
  */
 
-package de.pi3g.pi.rcswitch;
+package com.github.acionescu.pi.rcswitch;
 
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;

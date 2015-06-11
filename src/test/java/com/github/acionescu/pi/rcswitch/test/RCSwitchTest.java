@@ -1,8 +1,9 @@
-package de.pi3g.pi.rcswitch;
+package com.github.acionescu.pi.rcswitch.test;
 
 import org.junit.Ignore;
 import org.junit.Test;
 
+import com.github.acionescu.pi.rcswitch.RCSwitch;
 import com.pi4j.io.gpio.RaspiPin;
 
 /**
