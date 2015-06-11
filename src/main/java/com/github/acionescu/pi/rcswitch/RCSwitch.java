@@ -73,6 +73,10 @@ public class RCSwitch {
 	final GpioController gpio = GpioFactory.getInstance();
 	this.transmitterPin = gpio.provisionDigitalOutputPin(transmitterPin);
     }
+    
+    public RCSwitch() {
+	super();
+    }
 
     /**
      * Allows for lazy initialization.
