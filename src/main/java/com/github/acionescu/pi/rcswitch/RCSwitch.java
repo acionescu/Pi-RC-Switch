@@ -25,14 +25,14 @@
 
 package com.github.acionescu.pi.rcswitch;
 
+import java.util.BitSet;
+
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
 import com.pi4j.io.gpio.Pin;
 import com.pi4j.io.gpio.RaspiPin;
 import com.pi4j.wiringpi.Gpio;
-
-import java.util.BitSet;
 
 /**
  * Transmittes signals to 433 MHz electrical switching units. Based on the Arduino library but enhanced to fit a more
@@ -66,14 +66,17 @@ public class RCSwitch {
     private GpioPinDigitalOutput transmitterPin;
     private String transmitterPinName;
 
+    private int pinAddress;
+
     private final int pulseLength = 350;
     private final int repeatTransmit = 10;
 
     public RCSwitch(Pin transmitterPin) {
 	final GpioController gpio = GpioFactory.getInstance();
 	this.transmitterPin = gpio.provisionDigitalOutputPin(transmitterPin);
+	this.pinAddress = transmitterPin.getAddress();
     }
-    
+
     public RCSwitch() {
 	super();
     }
@@ -86,19 +89,18 @@ public class RCSwitch {
 	    throw new IllegalStateException("This RC Switch was already initialized with pin "
 		    + transmitterPin.getName());
 	}
-	
-	
+
 	Pin pin = RaspiPin.getPinByName(transmitterPinName);
 	final GpioController gpio = GpioFactory.getInstance();
 	this.transmitterPin = gpio.provisionDigitalOutputPin(pin);
-	
+	this.pinAddress = pin.getAddress();
     }
 
     /**
      * Allows for cleaning up after the object is not used anymore.
      */
     public void destroy() {
-	if(transmitterPin != null) {
+	if (transmitterPin != null) {
 	    final GpioController gpio = GpioFactory.getInstance();
 	    gpio.unprovisionPin(transmitterPin);
 	}
@@ -299,13 +301,15 @@ public class RCSwitch {
     }
 
     private void transmit(int nHighPulses, int nLowPulses) {
-	if (this.transmitterPin != null) {
-	    this.transmitterPin.high();
-	    Gpio.delayMicroseconds(this.pulseLength * nHighPulses);
+	// if (this.transmitterPin != null) {
+	// this.transmitterPin.high();
+	com.pi4j.wiringpi.Gpio.digitalWrite(pinAddress, true);
+	Gpio.delayMicroseconds(this.pulseLength * nHighPulses);
 
-	    this.transmitterPin.low();
-	    Gpio.delayMicroseconds(this.pulseLength * nLowPulses);
-	}
+	// this.transmitterPin.low();
+	com.pi4j.wiringpi.Gpio.digitalWrite(pinAddress, false);
+	Gpio.delayMicroseconds(this.pulseLength * nLowPulses);
+	// }
     }
 
     /**
