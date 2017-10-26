@@ -23,7 +23,7 @@
  * MA 02110-1301  USA
  */
 
-package com.github.acionescu.pi.rcswitch;
+package net.segoia.pi.rcswitch;
 
 import java.util.BitSet;
 
@@ -79,6 +79,10 @@ public class RCSwitch {
 
     public RCSwitch() {
 	super();
+    }
+    
+    public void start() {
+	
     }
 
     /**
